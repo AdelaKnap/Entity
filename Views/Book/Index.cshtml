@@ -1,0 +1,50 @@
+@model IEnumerable<Entity.Models.Book>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Böcker</h1>
+
+<p>
+    <a asp-action="Create">Lägg till ny bok</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Read)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Loan)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                <td>@Html.DisplayFor(modelItem => item.Read)</td>
+                <td>@Html.DisplayFor(modelItem => item.Author.Name)</td>
+                <td>
+                    @if (item.Loan != null)
+                    {
+                        @item.Loan.Borrower @item.LoanDate?.ToString("yyyy-MM-dd")
+                    } 
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Ändra</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Detaljer</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Radera</a>
+                </td>
+            </tr>
+        }
+    </tbody>
