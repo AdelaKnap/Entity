@@ -19,11 +19,22 @@ namespace Entity.Controllers
             _context = context;
         }
 
-        // GET: Book
-        public async Task<IActionResult> Index()
+        // GET: Book med sökfunktion med en query
+        public async Task<IActionResult> Index(string? SearchQuery)
         {
-            var applicationDbContext = _context.Books.Include(b => b.Author).Include(b => b.Loan);
-            return View(await applicationDbContext.ToListAsync());
+            var books = _context.Books.Include(b => b.Author).Include(b => b.Loan).AsQueryable();
+
+            //Filtrera om det finns något inskrivet i sök
+            if (!string.IsNullOrWhiteSpace(SearchQuery))
+            {
+                books = books.Where(b => b.Title.ToLower().Contains(SearchQuery.ToLower()) || b.Author.Name.ToLower().Contains(SearchQuery.ToLower()));
+            }
+
+            ViewData["CurrentFilter"] = SearchQuery;
+
+            return View(await books.ToListAsync());
+            // var applicationDbContext = _context.Books.Include(b => b.Author).Include(b => b.Loan);
+            // return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Book/Details/5
@@ -92,8 +103,9 @@ namespace Entity.Controllers
             {
                 return NotFound();
             }
-            ViewData["AuthorId"] = new SelectList(_context.Authors, "Id", "Id", book.AuthorId);
-            ViewData["LoanId"] = new SelectList(_context.Loans, "Id", "Id", book.LoanId);
+
+            ViewData["AuthorId"] = new SelectList(_context.Authors, "Id", "Name", book.AuthorId);
+            ViewData["LoanId"] = new SelectList(_context.Loans, "Id", "Borrower", book.LoanId);
             return View(book);
         }
 
@@ -111,6 +123,12 @@ namespace Entity.Controllers
 
             if (ModelState.IsValid)
             {
+                if (book.LoanId != null)
+                {
+                    // Om låntagare, sätt dagens datum
+                    book.LoanDate = DateTime.Now;
+                }
+
                 try
                 {
                     _context.Update(book);

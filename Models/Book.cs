@@ -23,7 +23,7 @@ public class Book
     [Display(Name = "Utlånad till")]
     public int? LoanId { get; set; }
 
-    [Display(Name = "Utlånad")]
+    [Display(Name = "Utlånad till")]
     public Loan? Loan { get; set; }
 
     [Display(Name = "Utlåningsdatum")]

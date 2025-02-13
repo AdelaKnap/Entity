@@ -6,9 +6,15 @@
 
 <h1>Böcker</h1>
 
+<form asp-action="Index" method="get" class="form-inline mb-3 w-50">
+    <input type="text" name="searchQuery" class="form-control mb-2" placeholder="Sök...">
+    <button type="submit" class="btn btn-primary">Sök</button>
+</form>
+
 <p>
     <a asp-action="Create">Lägg till ny bok</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
@@ -37,8 +43,12 @@
                 <td>
                     @if (item.Loan != null)
                     {
-                        @item.Loan.Borrower @item.LoanDate?.ToString("yyyy-MM-dd")
-                    } 
+                        @(item.Loan.Borrower + ", " + item.LoanDate?.ToString("yyyy-MM-dd"))
+                    }
+                    else
+                    {
+                        <span>Ej utlånad</span>
+                    }
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Ändra</a> |
