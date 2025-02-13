@@ -5,13 +5,13 @@
 }
 
 <h1>Böcker</h1>
-
 <form asp-action="Index" method="get" class="form-inline mb-3 w-50">
     <input type="text" name="SearchQuery" class="form-control" placeholder="Sök efter bok eller författare"
         value="@ViewData["CurrentFilter"]" />
-    <button type="submit" class="btn btn-primary">Sök</button>
+    <button type="submit" class="btn btn-primary mt-2 mb-2">Sök</button>
 </form>
 
+<hr>
 <p>
     <a asp-action="Create">Lägg till ny bok</a>
 </p>
