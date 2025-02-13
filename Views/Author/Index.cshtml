@@ -29,7 +29,7 @@
                 </td>
                 <td>
                     <ul>
-                        @foreach (var book in item.Books)
+                        @foreach (var book in item.Books ?? Enumerable.Empty<Book>())
                         {
                             <li>@book.Title</li>
                         }

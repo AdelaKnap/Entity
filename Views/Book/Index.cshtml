@@ -39,7 +39,7 @@
             <tr>
                 <td>@Html.DisplayFor(modelItem => item.Title)</td>
                 <td>@Html.DisplayFor(modelItem => item.Read)</td>
-                <td>@Html.DisplayFor(modelItem => item.Author.Name)</td>
+                <td>@(item.Author?.Name ?? "Ej angivet")</td>
                 <td>
                     @if (item.Loan != null)
                     {
