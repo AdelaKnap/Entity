@@ -22,7 +22,7 @@ namespace Entity.Controllers
         // GET: Author
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Authors.ToListAsync());
+            return View(await _context.Authors.Include(a => a.Books).ToListAsync()); // Skicka med böcker för respektive författare
         }
 
         // GET: Author/Details/5

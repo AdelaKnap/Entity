@@ -9,7 +9,8 @@
 <p>
     <a asp-action="Create">Lägg till ny låntagare</a>
 </p>
-<table class="table">
+
+<table class="table table-bordered table-hover table-striped shadow-sm rounded">
     <thead>
         <tr>
             <th>
@@ -19,17 +20,18 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Borrower)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Ändra</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Detaljer</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Radera</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Borrower)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Ändra</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Detaljer</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Radera</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
