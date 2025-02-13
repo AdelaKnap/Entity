@@ -16,6 +16,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Borrower)
             </th>
+            <th>Böcker</th>
             <th></th>
         </tr>
     </thead>
@@ -25,6 +26,14 @@
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Borrower)
+                </td>
+                <td>
+                    <ul>
+                        @foreach (var book in item.BorrowedBooks ?? Enumerable.Empty<Book>())
+                        {
+                            <li>@book.Title</li>
+                        }
+                    </ul>
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Ändra</a> |

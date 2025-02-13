@@ -22,7 +22,7 @@ namespace Entity.Controllers
         // GET: Loan
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Loans.ToListAsync());
+            return View(await _context.Loans.Include(l => l.BorrowedBooks).ToListAsync()); // Skicka med böcker för varje låntagare
         }
 
         // GET: Loan/Details/5
