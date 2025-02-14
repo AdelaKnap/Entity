@@ -139,13 +139,22 @@ namespace Entity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var author = await _context.Authors.FindAsync(id);
+            var author = await _context.Authors
+                .Include(a => a.Books)
+                .FirstOrDefaultAsync(a => a.Id == id);
+
             if (author != null)
             {
+                if (author.Books != null)
+                {
+                    _context.Books.RemoveRange(author.Books);
+                }
+                
                 _context.Authors.Remove(author);
+
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

@@ -134,18 +134,30 @@ namespace Entity.Controllers
             return View(loan);
         }
 
-        // POST: Loan/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var loan = await _context.Loans.FindAsync(id);
+            var loan = await _context.Loans
+                .Include(l => l.BorrowedBooks)  // Böcker kopplade till låntagaren
+                .FirstOrDefaultAsync(l => l.Id == id);
+
             if (loan != null)
             {
+                // Kolla om det finns böcker kopplade till lånet och sätt till null som blir Ej angivet
+                if (loan.BorrowedBooks != null)
+                {
+                    foreach (var book in loan.BorrowedBooks)
+                    {
+                        book.LoanId = null;
+                        book.Loan = null;
+                    }
+                }
+
                 _context.Loans.Remove(loan);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

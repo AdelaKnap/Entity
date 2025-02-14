@@ -33,8 +33,6 @@ namespace Entity.Controllers
             ViewData["CurrentFilter"] = SearchQuery;
 
             return View(await books.ToListAsync());
-            // var applicationDbContext = _context.Books.Include(b => b.Author).Include(b => b.Loan);
-            // return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Book/Details/5
